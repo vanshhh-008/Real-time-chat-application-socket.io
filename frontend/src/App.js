@@ -1,22 +1,30 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Login from "./Auth/Login";
-import Signup from "./Auth/Signup";
-import Chats from "./Chats";
-import ChatProvider from "./context/chatProvider";
+import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom'; 
+import Login from './Auth/Login'; 
+import Signup from './Auth/Signup';
+import Chats from './Chats';
+import ChatProvider from './context/chatProvider'; 
+import RefreshHandler from './RefreshHandler';
 
 function App() {
-  return (
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-      <ChatProvider>
-        <Routes>
-          <Route path="/" element={<Login/>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/chats" element={<Chats />} />
-        </Routes>
-      </ChatProvider>
-  
+  return (
+    <ChatProvider>
+      <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
+
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/chats"
+          element={
+            isAuthenticated ? <Chats /> : <Navigate to="/login" />
+          }
+        />
+      </Routes>
+    </ChatProvider>
   );
 }
 

@@ -55,7 +55,7 @@ const SideDrawer = () => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.get(`http://localhost:9000/auth?search=${search}`, config);
+      const { data } = await axios.get(`https://real-time-chat-application-socket-io-17xp.onrender.com/auth?search=${search}`, config);
       setSearchResult(data);
     } catch (error) {
       toast.error("Failed to load the data");
@@ -73,7 +73,7 @@ const accessChat = async (userId) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.post("http://localhost:9000/auth/chat", { userId }, config);
+      const { data } = await axios.post("https://real-time-chat-application-socket-io-17xp.onrender.com/auth/chat", { userId }, config);
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
 

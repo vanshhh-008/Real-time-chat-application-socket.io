@@ -64,7 +64,7 @@ const UpdateGroupChatModel = ({fetchMessages}) => {
       };
 
       const { data } = await axios.put(
-        "http://localhost:9000/auth/chat/groupremove",
+        "https://real-time-chat-application-socket-io-17xp.onrender.com/auth/chat/groupremove",
         requestBody,
         config
       );
@@ -113,7 +113,7 @@ const UpdateGroupChatModel = ({fetchMessages}) => {
       };
 
       const { data } = await axios.put(
-        "http://localhost:9000/auth/chat/rename",
+        "https://real-time-chat-application-socket-io-17xp.onrender.com/auth/chat/rename",
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
@@ -158,7 +158,7 @@ const UpdateGroupChatModel = ({fetchMessages}) => {
         },
       };
 
-      const { data } = await axios.get(`http://localhost:9000/auth?search=${query}`, config);
+      const { data } = await axios.get(`https://real-time-chat-application-socket-io-17xp.onrender.com/auth?search=${query}`, config);
       setSearchResult(data);
     } catch (error) {
       toast.error("Failed to load search results");
@@ -187,7 +187,7 @@ const UpdateGroupChatModel = ({fetchMessages}) => {
         },
       };
 
-      const { data } = await axios.put("http://localhost:9000/auth/chat/groupadd", {
+      const { data } = await axios.put("https://real-time-chat-application-socket-io-17xp.onrender.com/auth/chat/groupadd", {
         chatId: selectedChat._id,
         userId: userToAdd._id,
       }, config);

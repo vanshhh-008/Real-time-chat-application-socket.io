@@ -14,7 +14,7 @@ import Avatar from "react-avatar";
 import GroupChatModal from "./GroupChatModel";
 import UpdateGroupChatModel from "./UpdateGroupChatModel";
 import animationData from "../animations/typing.json"
-const ENDPOINT = "http://localhost:9000";
+const ENDPOINT = "https://real-time-chat-application-socket-io-17xp.onrender.com";
 let selectedChatCompare;
 
 const MyChats = () => {
@@ -158,7 +158,7 @@ preserveAspectRatio:"xMidYMid slice",
       };
 
       const { data } = await axios.get(
-        `http://localhost:9000/auth/message/${selectedChat._id}`,
+        `https://real-time-chat-application-socket-io-17xp.onrender.com/auth/message/${selectedChat._id}`,
         config
       );
 
@@ -191,7 +191,7 @@ preserveAspectRatio:"xMidYMid slice",
 
       setLoadingChat(true);
       const { data } = await axios.post(
-        "http://localhost:9000/auth/message",
+        "https://real-time-chat-application-socket-io-17xp.onrender.com/auth/message",
         {
           content: newMessages,
           chatId: selectedChat._id,
@@ -246,7 +246,7 @@ preserveAspectRatio:"xMidYMid slice",
         },
       };
 
-      const { data } = await axios.get("http://localhost:9000/auth/chat", config);
+      const { data } = await axios.get("https://real-time-chat-application-socket-io-17xp.onrender.com/auth/chat", config);
       setChats(data);
       setSpin(false);
       setContainer(false);

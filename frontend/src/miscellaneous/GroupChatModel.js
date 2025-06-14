@@ -43,7 +43,7 @@ const GroupChatModal = ({ onClose }) => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const { data } = await axios.get(`http://localhost:9000/auth?search=${query}`, config);
+            const { data } = await axios.get(`https://real-time-chat-application-socket-io-17xp.onrender.com/auth?search=${query}`, config);
             console.log(data);
             setSearchResult(data);
             setLoading(false);
@@ -68,7 +68,7 @@ const GroupChatModal = ({ onClose }) => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const { data } = await axios.post(`http://localhost:9000/auth/chat/group`,{
+            const { data } = await axios.post(`https://real-time-chat-application-socket-io-17xp.onrender.com/auth/chat/group`,{
                 name:groupChatName,
                 users:JSON.stringify(selectedUser.map((user)=>user._id))
             },config);

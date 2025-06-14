@@ -87,7 +87,7 @@ const SignupForm = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:9000/auth/signup", {
+      const response = await fetch("https://real-time-chat-application-socket-io-17xp.onrender.com/auth/signup", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
