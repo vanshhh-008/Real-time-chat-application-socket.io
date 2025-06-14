@@ -1,0 +1,16 @@
+.box {
+    height: calc(100vh - 200px); /* Adjust based on header/input height */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+  .input-container {
+    display: flex;
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+  }
+    

@@ -1,0 +1,123 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    background-color: rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .app2{
+  
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .header2{
+    text-align: center;
+ 
+    margin-bottom: 20px;
+  }
+ 
+  .forminput input{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+  }
+  
+  .header2 h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .header2 p {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  /* Form Container */
+  .form-container2 {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form2{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group2{
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+  }
+
+ 
+  
+  .form-buttons2{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .submit-btn2{
+   background-color: #ccc;
+    color: black;
+  }
+  
+  .clear-btn2{
+    background-color:#ccc;
+    color: black;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+
+
+  
+  
+  
+ 
+  @media (max-width: 480px) {
+    .header2 h1 {
+      font-size: 20px;
+    }
+ 
+
+
+  
+    .header2 p {
+      font-size: 14px;
+    }
+  }
+
+
+
+
+
+
+
+
