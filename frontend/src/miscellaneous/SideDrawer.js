@@ -37,7 +37,7 @@ const SideDrawer = () => {
     localStorage.removeItem("LoggedInUser");
     localStorage.removeItem("token");
     localStorage.removeItem("pic");
-    window.location.href = "/login";
+    window.location.href = "/";
   };
 
   const token = localStorage.getItem("token");

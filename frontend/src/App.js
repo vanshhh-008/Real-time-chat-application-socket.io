@@ -20,7 +20,7 @@ function App() {
         <Route
           path="/chats"
           element={
-            isAuthenticated ? <Chats /> : <Navigate to="/login" />
+            isAuthenticated ? <Chats /> : <Navigate to="/" />
           }
         />
       </Routes>
