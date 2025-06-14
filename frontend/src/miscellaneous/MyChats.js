@@ -73,9 +73,12 @@ preserveAspectRatio:"xMidYMid slice",
   }, []);
 
   useEffect(() => {
-    const newSocket = io(ENDPOINT);
+    const newSocket = io(ENDPOINT, {
+      transports: ["websocket"],  
+      withCredentials: true,     
+    });
     setSocket(newSocket);
-
+  
     newSocket.emit("setup", {
       _id: getId,
       name: loggedUser,
