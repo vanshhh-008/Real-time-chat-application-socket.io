@@ -13,7 +13,8 @@ import { getSender, getSenderEmail, getSenderPic } from "../config/ChatLogics";
 import Avatar from "react-avatar";
 import GroupChatModal from "./GroupChatModel";
 import UpdateGroupChatModel from "./UpdateGroupChatModel";
-import animationData from "../animations/typing.json"
+import animationData from "../animations/typing.json";
+
 const ENDPOINT = "https://real-time-chat-application-socket-io-17xp.onrender.com";
 let selectedChatCompare;
 
@@ -49,17 +50,18 @@ const MyChats = () => {
     container2,
     setContainer2,
     notifications,
-    setNotifications    
+    setNotifications
   } = ChatState();
 
   const defaultOptions = {
-    loop:true,
-    autoplay:true,
-    animationData:animationData,
-    rendererSettings:{
-preserveAspectRatio:"xMidYMid slice",
-    }
-  }
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   const token = localStorage.getItem("token");
   const getId = localStorage.getItem("id");
   const email = localStorage.getItem("email");
@@ -74,11 +76,12 @@ preserveAspectRatio:"xMidYMid slice",
 
   useEffect(() => {
     const newSocket = io(ENDPOINT, {
-      transports: ["websocket"],  
-      withCredentials: true,     
+      transports: ["websocket"],
+      withCredentials: true,
     });
+
     setSocket(newSocket);
-  
+
     newSocket.emit("setup", {
       _id: getId,
       name: loggedUser,
@@ -95,7 +98,7 @@ preserveAspectRatio:"xMidYMid slice",
 
   useEffect(() => {
     if (!socket) return;
-  
+
     socket.on("typing", (data) => {
       if (!data) return;
       const { chatId, senderId } = data;
@@ -104,7 +107,7 @@ preserveAspectRatio:"xMidYMid slice",
         setIsTyping(true);
       }
     });
-  
+
     socket.on("stop typing", (data) => {
       if (!data) return;
       const { chatId, senderId } = data;
@@ -113,13 +116,12 @@ preserveAspectRatio:"xMidYMid slice",
         setIsTyping(false);
       }
     });
-  
+
     return () => {
       socket.off("typing");
       socket.off("stop typing");
     };
   }, [socket, selectedChat]);
-  
 
   useEffect(() => {
     if (!socket) return;
@@ -129,26 +131,24 @@ preserveAspectRatio:"xMidYMid slice",
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
-        // Optional: show notification
-        if(!notifications.includes(newMessageReceived)){
-          setNotifications([newMessageReceived,...notifications]);
-          setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
-        }
+        setNotifications((prev) => {
+          const exists = prev.find((n) => n._id === newMessageReceived._id);
+          if (exists) return prev;
+          return [newMessageReceived, ...prev];
+        });
       } else {
         setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
       }
     });
 
     return () => socket.off("Message Received");
-  }, [socket, selectedChat]);
+  }, [socket]);
 
   useEffect(() => {
     fetchMessages();
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
 
-
-  console.log("notifications-------",notifications)
   const fetchMessages = async () => {
     if (!selectedChat) return;
 
@@ -161,13 +161,16 @@ preserveAspectRatio:"xMidYMid slice",
       };
 
       const { data } = await axios.get(
-        `https://real-time-chat-application-socket-io-17xp.onrender.com/auth/message/${selectedChat._id}`,
+        `${ENDPOINT}/auth/message/${selectedChat._id}`,
         config
       );
 
       setMessages(data);
       setLoadingChat(false);
-      socket.emit("join chat", selectedChat._id);
+
+      if (socket) {
+        socket.emit("join chat", selectedChat._id);
+      }
     } catch (error) {
       toast.error("Error in fetching messages");
       setLoadingChat(false);
@@ -179,11 +182,13 @@ preserveAspectRatio:"xMidYMid slice",
       toast.error("Cannot send empty message");
       return;
     }
+
     setIsTyping(false);
     socket.emit("stop typing", {
       chatId: selectedChat._id,
       senderId: getId,
     });
+
     try {
       const config = {
         headers: {
@@ -192,9 +197,8 @@ preserveAspectRatio:"xMidYMid slice",
         },
       };
 
-      setLoadingChat(true);
       const { data } = await axios.post(
-        "https://real-time-chat-application-socket-io-17xp.onrender.com/auth/message",
+        `${ENDPOINT}/auth/message`,
         {
           content: newMessages,
           chatId: selectedChat._id,
@@ -204,20 +208,19 @@ preserveAspectRatio:"xMidYMid slice",
 
       data.chat = selectedChat;
       socket.emit("new message", data);
-     
+
       setMessages((prevMessages) => [...prevMessages, data]);
       setNewMessages("");
-      setLoadingChat(false);
     } catch (error) {
       toast.error("Error Occurred");
-      setLoadingChat(false);
     }
   };
+
   const typingHandler = (e) => {
     setNewMessages(e.target.value);
-  
+
     if (!socketConnected) return;
-  
+
     if (!typing) {
       setTyping(true);
       socket.emit("typing", {
@@ -225,9 +228,9 @@ preserveAspectRatio:"xMidYMid slice",
         senderId: getId,
       });
     }
-  
+
     if (lastTypingTimeRef.current) clearTimeout(lastTypingTimeRef.current);
-  
+
     lastTypingTimeRef.current = setTimeout(() => {
       socket.emit("stop typing", {
         chatId: selectedChat._id,
@@ -236,8 +239,6 @@ preserveAspectRatio:"xMidYMid slice",
       setTyping(false);
     }, 3000);
   };
-  
-
 
   const fetchChats = async () => {
     try {
@@ -249,13 +250,12 @@ preserveAspectRatio:"xMidYMid slice",
         },
       };
 
-      const { data } = await axios.get("https://real-time-chat-application-socket-io-17xp.onrender.com/auth/chat", config);
+      const { data } = await axios.get(`${ENDPOINT}/auth/chat`, config);
       setChats(data);
       setSpin(false);
       setContainer(false);
       setContainer2(false);
     } catch (error) {
-      console.error("Error fetching chats:", error);
       setSpin(false);
     }
   };
@@ -278,15 +278,14 @@ preserveAspectRatio:"xMidYMid slice",
       if (socket) {
         socket.off("connected");
         socket.off("Message Received");
+        socket.off("typing");
+        socket.off("stop typing");
       }
     };
   }, [socket]);
 
-
-
-
   return (
-    <>
+   <>
       <Toaster />
       {isGroupModalOpen && <GroupChatModal onClose={() => setIsGroupModalOpen(false)} />}
 
@@ -947,9 +946,7 @@ round
               </>
               )}
       </>
-    
   );
 };
 
 export default MyChats;
-
